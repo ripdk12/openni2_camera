@@ -38,7 +38,8 @@ import launch_ros.descriptions
 from launch.substitutions import LaunchConfiguration, ThisLaunchFileDir, PathJoinSubstitution
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-
+from ament_index_python.packages import get_package_share_directory
+import os.path
 
 def generate_launch_description():
 
@@ -95,4 +96,11 @@ def generate_launch_description():
         tf_prefix_launch_arg,
         container,
         tfs,
+        launch_ros.actions.Node(
+            package='rviz2',
+            namespace='',
+            executable='rviz2',
+            name='rviz2',
+            arguments=['-d' + os.path.join(get_package_share_directory('openni2_camera'), 'rviz', 'openni2_pointcloud.rviz')]
+        )
     ])
